@@ -44,32 +44,28 @@ function map(array, fn) {
    reduce([1, 2, 3], (all, current) => all + current) // 6
  */
 
-function reduce(array, fn, initial) {
-  let result;
-  const typeOfInitial = typeof initial;
-
-  if (typeOfInitial === 'undefined') {
-    result = array[0];
-    for (let i = 1; i < array.length; i++) {
-      result = fn(result, array[i], i, array);
-    }
-  } else {
+function reduce(array, fn, initial = array[0]) {
+  let i,
     result = initial;
-    for (let i = 0; i < array.length; i++) {
-      result = fn(result, array[i], i, array);
-    }
+  if (result === array[0]) {
+    i = 1;
+  } else {
+    i = 0;
+  }
+  for (; i < array.length; i++) {
+    result = fn(result, array[i], i, array);
   }
   return result;
 }
 
 /*
- Задание 4:
+Задание 4:
 
- Функция должна перебрать все свойства объекта, преобразовать их имена в верхний регистр и вернуть в виде массива
+Функция должна перебрать все свойства объекта, преобразовать их имена в верхний регистр и вернуть в виде массива
 
- Пример:
-   upperProps({ name: 'Сергей', lastName: 'Петров' }) вернет ['NAME', 'LASTNAME']
- */
+Пример:
+ upperProps({ name: 'Сергей', lastName: 'Петров' }) вернет ['NAME', 'LASTNAME']
+*/
 
 function upperProps(obj) {
   const array = [];
