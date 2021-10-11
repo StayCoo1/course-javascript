@@ -18,29 +18,24 @@
  */
 
 function isAllTrue(array, fn) {
-  try {
-    if (array instanceof Array != true) {
-      throw new Error('empty array');
+  if (array instanceof Array != true) {
+    throw new Error('empty array');
 
-    } else if (array.length === 0) {
-      throw new Error('empty array');
+  } else if (array.length === 0) {
+    throw new Error('empty array');
 
-    } else if (typeof fn != 'function') {
-      throw new Error('fn is not a function');
-    }
-
-    for (let i = 0; i < array.length; i++) {
-      let param = fn(array[i]);
-
-      if (param === false) {
-        return param
-      }
-    }
-    return true
-
-  } catch (e) {
-    console.log(e.message);
+  } else if (typeof fn != 'function') {
+    throw new Error('fn is not a function');
   }
+
+  for (let i = 0; i < array.length; i++) {
+    let param = fn(array[i]);
+
+    if (param === false) {
+      return param
+    }
+  }
+  return true
 }
 
 /*
@@ -61,29 +56,21 @@ function isAllTrue(array, fn) {
  */
 
 function isSomeTrue(array, fn) {
-  try {
-    if (array instanceof Array != true) {
-      throw new Error('empty array');
+  if (!(array instanceof Array) || array.length == 0) {
+    throw new Error('empty array')
 
-    } else if (array.length === 0) {
-      throw new Error('empty array');
-
-    } else if (typeof fn != 'function') {
-      throw new Error('fn is not a function');
-    }
-
-    for (let i = 0; i < array.length; i++) {
-      let param = fn(array[i]);
-
-      if (param == true) {
-        return param
-      }
-    }
-    return false
-
-  } catch (e) {
-    console.log(e.message);
+  } else if (typeof fn != 'function') {
+    throw new Error('fn is not a function')
   }
+
+  for (let i = 0; i < array.length; i++) {
+    let param = fn(array[i]);
+
+    if (param == true) {
+      return param
+    }
+  }
+  return false
 }
 
 /*
@@ -101,22 +88,18 @@ function isSomeTrue(array, fn) {
 function returnBadArguments(fn, ...args) {
   let arr = [];
 
-  try {
-    if (typeof fn != 'function') {
-      throw new Error('fn is not a function');
-    } else {
+  if (typeof fn != 'function') {
+    throw new Error('fn is not a function');
+  } else {
 
-      for (let i = 0; i < args.length; i++) {
-        try {
-          fn(args[i]);
-        } catch {
-          arr.push(args[i])
-        }
+    for (let i = 0; i < args.length; i++) {
+      try {
+        fn(args[i]);
+      } catch {
+        arr.push(args[i])
       }
-      return arr
     }
-  } catch (e) {
-    console.log(e.message)
+    return arr
   }
 }
 
@@ -139,47 +122,43 @@ function returnBadArguments(fn, ...args) {
  */
 
 function calculator(number = 0) {
-  try {
-    if (typeof number === 'number') {
-      return {
-        sum: function (...args) {
-          let num = number;
-          for (let n of args) {
-            num += n
-          }
-          return num
-        },
-        dif: function (...args) {
-          let num = number;
-          for (let n of args) {
-            num -= n
-          }
-          return num
-        },
-        div: function (...args) {
-          let num = number;
-          for (let n of args) {
-            if (n === 0) {
-              throw new Error('division by 0')
-            } else {
-              num /= n
-            }
-          }
-          return num
-        },
-        mul: function (...args) {
-          let num = number;
-          for (let n of args) {
-            num *= n
-          }
-          return num
+  if (typeof number === 'number') {
+    return {
+      sum: function (...args) {
+        let num = number;
+        for (let n of args) {
+          num += n
         }
+        return num
+      },
+      dif: function (...args) {
+        let num = number;
+        for (let n of args) {
+          num -= n
+        }
+        return num
+      },
+      div: function (...args) {
+        let num = number;
+        for (let n of args) {
+          if (n === 0) {
+            throw new Error('division by 0')
+          } else {
+            num /= n
+          }
+        }
+        return num
+      },
+      mul: function (...args) {
+        let num = number;
+        for (let n of args) {
+          num *= n
+        }
+        return num
       }
-    } else {
-      throw new Error('number is not a number')
     }
-  } catch (e) {
-    console.log(e.message)
+  } else {
+    throw new Error('number is not a number')
   }
 }
 
