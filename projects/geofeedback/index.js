@@ -1,3 +1,6 @@
+import './index.html';
+import './main.css';
+
 class InteractiveMap {
   constructor(mapId, onClick) {
     this.mapId = mapId;
@@ -73,21 +76,21 @@ class Review {
   }
 
   async onInit() {
-    for (let i = 0; i<localStorage.length; i++) {
-      if (JSON.parse(localStorage.getItem(localStorage.key(i))).length > 1){
-        for (let k = 0; k<JSON.parse(localStorage.getItem(localStorage.key(i))).length; k++){
+    for (let i = 0; i < localStorage.length - 1; i++) {
+      if (localStorage.key(i) === "loglevel:webpack-dev-server") { i++ }
+      else {
+        if (JSON.parse(localStorage.getItem(localStorage.key(i))).length > 1) {
+          for (let k = 0; k < JSON.parse(localStorage.getItem(localStorage.key(i))).length; k++) {
+            this.map.createPlacemark(JSON.parse(localStorage.key(i)));
+          }
+        }
+        else {
           this.map.createPlacemark(JSON.parse(localStorage.key(i)));
         }
-      }
-      else{
-
-        this.map.createPlacemark(JSON.parse(localStorage.key(i)));
       }
     }
     document.body.addEventListener('click', this.onDocumentClick.bind(this));
   }
-
-  
 
   createForm(coords, reviews) {
     const root = document.createElement('div');
@@ -96,7 +99,7 @@ class Review {
     const reviewForm = root.querySelector('[data-role=review-form]');
     reviewForm.dataset.coords = JSON.stringify(coords);
 
-    if (reviews){
+    if (reviews) {
       for (const item of reviews) {
         const div = document.createElement('div');
         div.classList.add('review-item');
@@ -120,7 +123,7 @@ class Review {
     this.map.setBalloonContent(form.innerHTML);
   }
 
-   onDocumentClick(e) {
+  onDocumentClick(e) {
     if (e.target.dataset.role === 'review-add') {
       let data = [];
       const reviewForm = document.querySelector('[data-role=review-form]');
@@ -131,11 +134,11 @@ class Review {
         place: document.querySelector('[data-role=review-place]').value,
         text: document.querySelector('[data-role=review-text]').value,
       };
-      if (JSON.parse(localStorage.getItem(JSON.stringify(coords)))){
+      if (JSON.parse(localStorage.getItem(JSON.stringify(coords)))) {
         data = JSON.parse(localStorage.getItem(JSON.stringify(coords)));
         data.push(reviews);
       }
-      else{
+      else {
         data.push(reviews);
       }
 
@@ -151,4 +154,4 @@ class Review {
   }
 }
 
-new Review();
+new Review()
